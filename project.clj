@@ -8,4 +8,4 @@
                  [org.clojure/java.jdbc "0.4.2"]
                  [org.postgresql/postgresql "9.4-1206-jdbc4"]
                  ]
-   })
+   )
