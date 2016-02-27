@@ -15,7 +15,6 @@
             :result)))))
 
 ;; Test Reads
-
 (deftest json-and-maps
   (testing "json is read as a clojure map"
     (is (= {:a 1}
@@ -43,6 +42,13 @@
     (is (= java.util.Date
            (->
             (sql/query pg ["select current_timestamp as result"])
+            first
+            :result
+            type))))
+  (testing "date is read as java.util.Date"
+    (is (= java.util.Date
+           (->
+            (sql/query pg ["select current_date as result"])
             first
             :result
             type)))))
