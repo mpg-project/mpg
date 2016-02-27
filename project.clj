@@ -1,8 +1,8 @@
 (defproject jdbc-pg-sanity "0.1.0"
-  :description "FIXME: write description"
+  :description "Sane defaults for working with cl"
   :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :license {:name "MIT"
+            :url "https://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [cheshire "5.5.0"]
                  [org.clojure/java.jdbc "0.4.2"]
