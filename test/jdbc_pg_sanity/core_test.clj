@@ -4,16 +4,7 @@
             [jdbc-pg-sanity.core]))
 
 (def pg {:subprotocol "postgresql"
-         :subname "//127.0.0.1:5432/sanity_test"
-         })
-
-
-
-(deftest a-test
-  (testing "Basic Math"
-    (is (= 1 1))))
-
-
+         :subname "//127.0.0.1:5432/sanity_test"})
 
 (deftest connection
   (testing "can connect to db"
@@ -22,7 +13,6 @@
             (sql/query pg ["select 1 as result"])
             first
             :result)))))
-
 
 (deftest json-and-maps
   (testing "json is read as a clojure map"
@@ -35,5 +25,13 @@
     (is (= {:b 2}
            (->
             (sql/query pg ["select '{\"b\": 2}'::jsonb as result"])
+            first
+            :result)))))
+
+(deftest vectors
+  (testing "array is read as a clojure vector"
+    (is (= [2 4 8]
+           (->
+            (sql/query pg ["select '{2,4,8}'::bigint[] as result"])
             first
             :result)))))
