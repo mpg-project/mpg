@@ -1,4 +1,4 @@
-(defproject jdbc-pg-sanity "0.1.0"
+(defproject jdbc-pg-sanity "0.1.1"
   :description "Sane defaults for clojure.java.jdbc and postgresql"
   :url "http://example.com/FIXME"
   :license {:name "MIT"
