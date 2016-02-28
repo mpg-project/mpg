@@ -12,6 +12,8 @@ Handles the following:
 
 ## Usage
 
+[![Clojars Project](https://img.shields.io/clojars/v/jdbc-pg-sanity.svg)](https://clojars.org/jdbc-pg-sanity)
+
 Just require the `jdbc-pg-sanity.core` namespace:
 
 ```clojure
