@@ -1,6 +1,6 @@
-(defproject jdbc-pg-sanity "0.1.1"
-  :description "Sane defaults for clojure.java.jdbc and postgresql"
-  :url "http://example.com/FIXME"
+(defproject jdbc-pg-sanity "0.1.2"
+  :description "Sane defaults for using clojure.java.jdbc with PostgreSQL."
+  :url "https://github.com/ShaneKilkelly/clj-jdbc-pg-sanity"
   :license {:name "MIT"
             :url "https://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.8.0"]

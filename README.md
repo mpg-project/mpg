@@ -1,6 +1,6 @@
 # jdbc-pg-sanity
 
-Sane defaults for working with clojure.jdbc and postgresql.
+Sane defaults for working with clojure.java.jdbc and postgresql.
 No more boilerplate.
 
 Handles the following:
@@ -28,6 +28,9 @@ Just require the `jdbc-pg-sanity.core` namespace:
 ## Contributing
 
 Contributions and improvements welcome, just open an issue! :)
+
+If this library should do something, and it doesn't currently do it, please fork
+and open a pull request. All reasonable contributions will be accepted.
 
 
 ## Acknowledgements
