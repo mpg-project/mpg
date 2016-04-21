@@ -1,11 +1,11 @@
-(defproject jdbc-pg-sanity "0.1.2"
-  :description "Sane defaults for using clojure.java.jdbc with PostgreSQL."
-  :url "https://github.com/ShaneKilkelly/clj-jdbc-pg-sanity"
+(defproject mpg "0.2.0"
+  :description "More modern Postgres to the gallon. Transparently maps clojure <-> postgresql data"
+  :url "https://github.com/ShaneKilkelly/mpg"
   :license {:name "MIT"
             :url "https://opensource.org/licenses/MIT"}
-  :dependencies [[org.clojure/clojure "1.8.0"]
-                 [cheshire "5.5.0"]
-                 [org.clojure/java.jdbc "0.4.2"]
-                 [org.postgresql/postgresql "9.4-1206-jdbc4"]
-                 ]
-   )
+  :dependencies [[org.clojure/clojure "1.8.0" :scope "provided"]
+                 [cheshire "5.6.1"]
+                 [org.clojure/java.jdbc "0.6.0-alpha2"]
+                 [org.postgresql/postgresql "9.4.1208"]]
+  :profiles {:dev {:dependencies [[environ "1.0.2"]]}}
+  :global-vars {*warn-on-reflection* true})
