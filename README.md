@@ -10,6 +10,9 @@ Handles the following:
 - TIMESTAMPTZ <-> java.time.ZonedDateTime
 - JSON/JSONB <-> clojure map/vector
 - ARRAY <-> clojure vector
+- HSTORE <-> clojure map*
+
+* HSTORE is not as rich as JSON, everything in the map becomes a string
 
 ## Usage
 
@@ -26,26 +29,9 @@ Just require the `mpg.core` namespace and call `patch`
 (mpg/patch {:default-map :hstore}) ;; custom settings are merged with the defaults
 ;; valid settings:
     :data        - boolean, default true. auto-map maps and vectors?
-    :datetime    - boolean, default true. auto-map java.time.{LocalDate, Instant, ZonedDateTime} ?
+    :datetime    - boolean, default true. auto-map java.time.{LocalDate, ZonedDateTime} ?
     :default-map - keyword. one of :json, :hstore. Default :json
-    :default-time-zone - string or keyword describing a timezone, default: UTC
-                         see https://docs.oracle.com/javase/8/docs/api/java/time/ZoneId.html
 ```
-
-## Timezone discussion.
-
-The Java 8 Time API enables us to correctly handle Dates and Times. In
-order to behave correctly, we need to know what timezone your database
-is using by default for timestamp columns (which do not track timezone info).
-
-We *strongly* recommend you use the default, UTC. The only reason you
-should not do this is if you are certain that the database is in
-another time zone, for compatibility with existing databases. Don't
-create new databases in timezones other than UTC.
-
-Dates and times are an extremely complicated area. Where possible. Use
-UTC where possible and preferably make your database fields
-timestamptz (the same size, just easier to get correct)
 
 ## Limitations
 
@@ -54,8 +40,7 @@ The current clojure.java.jdbc interface imposes some limitations on us.
 1. You must use clojure.java.jdbc or a library that does to benefit from this library
 2. When not using prepared statements, we cannot save a vector as an array type (we therefore use json)
 3. When not using prepared statements, you must choose between storing maps as json or hstore (default: json)
-4. In order to reliably convert un-zoned timestamps, we need a default
-   timezone to treat them as belonging to (default: UTC)
+4. We assume you are using the postgres default, UTC and that your timestamp (i.e. without time zone) columns are in UTC
 
 ## Contributing
 
