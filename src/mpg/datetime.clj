@@ -14,13 +14,13 @@
     :else (throw (ex-info "Invalid timezone" {:got zone}))))
 
 (def ^ZoneId utc (get-zone :UTC))
+(def ^ZoneId local (ZoneId/systemDefault))
 
 (defn zoneddatetime->timestamp [^ZonedDateTime zdt]
   (-> zdt
-      (.withZoneSameInstant utc)
+      (.withZoneSameInstant local)
       .toLocalDateTime
       Timestamp/valueOf))
-    
 (defn patch
   "Installs conversion hooks for various java.time types
    args: []"
@@ -42,6 +42,5 @@
     (set-parameter [^ZonedDateTime v ^PreparedStatement stmt ^long idx]
       (let [t (u/pg-param-type stmt idx)]
         (if (#{"timestamp" "timestamptz"} t)
-          (.setTimestamp stmt idx (zoneddatetime->timestamp v))
+          (->> v zoneddatetime->timestamp (.setTimestamp stmt idx))
           (throw (ex-info (str "Invalid conversion from ZonedDateTime. expected " t) {})))))))
-
