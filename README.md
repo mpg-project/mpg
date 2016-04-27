@@ -37,10 +37,10 @@ Just require the `mpg.core` namespace and call `patch`
 
 The current clojure.java.jdbc interface imposes some limitations on us.
 
-1. You must use clojure.java.jdbc or a library that does to benefit from this library
-2. When not using prepared statements, we cannot save a vector as an array type (we therefore use json)
+1. You only get the autoconversion when using clojure.java.jdbc or something built on it
+2. When using unbound statements, we cannot save a vector as an array type (we therefore use json)
 3. When not using prepared statements, you must choose between storing maps as json or hstore (default: json)
-4. We assume you are using the postgres default, UTC and that your timestamp (i.e. without time zone) columns are in UTC
+4. All applications that have written to the database are assumed to have correctly saved timestamps in UTC. If you only use this library, you won't have to worry about that. Most applications can be configured with the TZ environment variable
 
 ## Contributing
 
