@@ -5,14 +5,11 @@ datatypes. No more boilerplate!
 
 Handles the following:
 
-- DATE <-> java.time.LocalDate
-- TIMESTAMP <-> java.time.Instant
-- TIMESTAMPTZ <-> java.time.ZonedDateTime
-- JSON/JSONB <-> clojure map/vector
-- ARRAY <-> clojure vector
-- HSTORE <-> clojure map
-
-Please note that HSTORE is not as rich as JSON, everything in the map becomes a string
+- `DATE` <-> `java.time.LocalDate`
+- `TIMESTAMP/TIMESTAMPTZ` <-> `java.time.ZonedDateTime`
+- `JSON/JSONB` <-> clojure map/vector
+- `ARRAY` (e.g. `int[]`)<-> clojure vector
+- `HSTORE` <-> clojure map (limited support - jdbc stringifies all contents)
 
 ## Usage
 
