@@ -14,9 +14,18 @@ Handles the following:
 
 * HSTORE is not as rich as JSON, everything in the map becomes a string
 
-## Usage
+## Installation
+
+Add `mpg` as a leiningen dependency:
+
+```clojure
+[mpg "0.3.0"]
+```
 
 [![Clojars Project](https://img.shields.io/clojars/v/mpg.svg)](https://clojars.org/mpg)
+
+
+## Usage
 
 Just require the `mpg.core` namespace and call `patch`
 

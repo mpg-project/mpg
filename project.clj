@@ -1,6 +1,6 @@
-(defproject mpg "0.2.0"
+(defproject mpg "0.3.0"
   :description "More modern Postgres to the gallon. Transparently maps clojure <-> postgresql data"
-  :url "https://github.com/ShaneKilkelly/mpg"
+  :url "https://github.com/mpg-project/mpg"
   :license {:name "MIT"
             :url "https://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.8.0" :scope "provided"]
