@@ -1,0 +1,20 @@
+language: clojure
+sudo: false
+script: lein test
+branches:
+  only:
+    - master
+    - kentnl
+env:
+  - UTRECHT_TEST_DB="utrecht_test"
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database sanity_test;' -U postgres
+jdk:
+  - oraclejdk8
+#  - openjdk7 # tests fail - probably running out of memory or disk
+# travis does not support any of these (yet):
+#  - oraclejdk9
+#  - openjdk8
+#  - openjdk9
