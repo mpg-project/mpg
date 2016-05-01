@@ -11,6 +11,9 @@ Handles the following:
 - `ARRAY` (e.g. `int[]`)<-> clojure vector
 - `HSTORE` <-> clojure map (limited support - jdbc stringifies all contents)
 
+[![Build Status](https://travis-ci.org/mpg-project/mpg.svg?branch=master)](https://travis-ci.org/mpg-project/mpg)
+
+
 ## Installation
 
 Add `mpg` as a leiningen dependency:
