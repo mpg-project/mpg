@@ -47,7 +47,7 @@
       (case (u/pg-param-type stmt idx)
         "json"   (.setObject stmt idx (u/pg-json v))
         "jsonb"  (.setObject stmt idx (u/pg-json v))
-        "citext" (.setObject stmt idx (u/pg-json v))
+        "citext" (.setObject stmt idx (str v))
         "hstore" (.setObject stmt idx (java.util.HashMap. ^clojure.lang.PersistentHashMap v))))
     IPersistentVector
     (set-parameter [v ^java.sql.PreparedStatement stmt ^long idx]
@@ -57,4 +57,3 @@
         (if-let [elem-type (when (= (first type-name) \_) (apply str (rest type-name)))]
           (.setObject stmt idx (.createArrayOf conn elem-type (to-array v)))
           (.setObject stmt idx (u/pg-json v)))))))
-
