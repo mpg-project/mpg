@@ -19,7 +19,7 @@ Handles the following:
 Add `mpg` as a leiningen dependency:
 
 ```clojure
-[mpg "0.3.0"]
+[mpg "1.0.0"]
 ```
 
 [![Clojars Project](https://img.shields.io/clojars/v/mpg.svg)](https://clojars.org/mpg)
