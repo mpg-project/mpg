@@ -4,7 +4,7 @@
             [mpg.util :as u])
   (:import [org.postgresql.util PGobject]
            [org.postgresql.jdbc PgArray]
-           [clojure.lang IPersistentMap IPersistentVector]
+           [clojure.lang IPersistentMap IPersistentVector ExceptionInfo]
            [java.sql Date Timestamp PreparedStatement]
            [java.time Instant LocalDateTime]
            [java.util HashMap]))
@@ -44,7 +44,7 @@
   (extend-protocol j/ISQLParameter
     IPersistentMap
     (set-parameter [v ^java.sql.PreparedStatement stmt ^long idx]
-      (case (u/pg-param-type stmt idx)
+      (case (try (u/pg-param-type stmt idx) (catch ExceptionInfo e default-map))
         "json"   (.setObject stmt idx (u/pg-json v))
         "jsonb"  (.setObject stmt idx (u/pg-json v))
         "citext" (.setObject stmt idx (u/pg-json v))
