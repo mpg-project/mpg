@@ -52,7 +52,7 @@
       (is (= v3
              (roundtrip-unprepared "hstore"  v3)
              (roundtrip-prepared   "hstore"  v3))))))
-  
+
 (deftest arrays
   (testing "vector roundtrips through array"
     (let [v [2 4 8]]
@@ -74,3 +74,10 @@
       (is (= v
              (roundtrip-unprepared "timestamptz" v)
              (roundtrip-prepared   "timestamptz" v))))))
+
+(deftest citext
+  (testing "citext should be treated as string type"
+    (let [v "some example text"]
+      (is (= v
+             (roundtrip-prepared "citext" v)
+             (roundtrip-unprepared "citext" v))))))
