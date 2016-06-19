@@ -58,6 +58,8 @@
     (let [v [2 4 8]]
       (is (= v
              (roundtrip-unprepared "int[]" v)
+             (roundtrip-prepared   "int[]" v)
+             ;; should work fine second time
              (roundtrip-prepared   "int[]" v))))))
 
 (deftest datetime

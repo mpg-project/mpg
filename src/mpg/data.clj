@@ -56,4 +56,7 @@
             type-name (.getParameterTypeName meta idx)]
         (if-let [elem-type (when (= (first type-name) \_) (apply str (rest type-name)))]
           (.setObject stmt idx (.createArrayOf conn elem-type (to-array v)))
-          (.setObject stmt idx (u/pg-json v)))))))
+          (if-let [array-type (-> (re-matches #"(.*)\[\]" type-name)
+                                  (nth 1))]
+            (.setObject stmt idx (.createArrayOf conn array-type (to-array v)))
+            (.setObject stmt idx (u/pg-json v))))))))
