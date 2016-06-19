@@ -13,6 +13,7 @@ Handles the following:
 
 [![Build Status](https://travis-ci.org/mpg-project/mpg.svg?branch=master)](https://travis-ci.org/mpg-project/mpg)
 
+Note: this library was once called [jdbc-pg-sanity](https://clojars.org/jdbc-pg-sanity), `mpg` is the new version.
 
 ## Installation
 
