@@ -4,7 +4,7 @@
             [mpg.util :as u])
   (:import [org.postgresql.util PGobject]
            [org.postgresql.jdbc PgArray]
-           [clojure.lang IPersistentMap IPersistentVector]
+           [clojure.lang IPersistentMap IPersistentVector ExceptionInfo]
            [java.sql Date Timestamp PreparedStatement]
            [java.time Instant LocalDateTime]
            [java.util HashMap]))
@@ -44,10 +44,10 @@
   (extend-protocol j/ISQLParameter
     IPersistentMap
     (set-parameter [v ^java.sql.PreparedStatement stmt ^long idx]
-      (case (u/pg-param-type stmt idx)
+      (case (try (u/pg-param-type stmt idx) (catch ExceptionInfo e (name default-map)))
         "json"   (.setObject stmt idx (u/pg-json v))
         "jsonb"  (.setObject stmt idx (u/pg-json v))
-        "citext" (.setObject stmt idx (u/pg-json v))
+        "citext" (.setObject stmt idx (str v))
         "hstore" (.setObject stmt idx (java.util.HashMap. ^clojure.lang.PersistentHashMap v))))
     IPersistentVector
     (set-parameter [v ^java.sql.PreparedStatement stmt ^long idx]
@@ -56,5 +56,7 @@
             type-name (.getParameterTypeName meta idx)]
         (if-let [elem-type (when (= (first type-name) \_) (apply str (rest type-name)))]
           (.setObject stmt idx (.createArrayOf conn elem-type (to-array v)))
-          (.setObject stmt idx (u/pg-json v)))))))
-
+          (if-let [array-type (-> (re-matches #"(.*)\[\]" type-name)
+                                  (nth 1))]
+            (.setObject stmt idx (.createArrayOf conn array-type (to-array v)))
+            (.setObject stmt idx (u/pg-json v))))))))

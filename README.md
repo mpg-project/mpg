@@ -13,13 +13,14 @@ Handles the following:
 
 [![Build Status](https://travis-ci.org/mpg-project/mpg.svg?branch=master)](https://travis-ci.org/mpg-project/mpg)
 
+Note: this library was once called [jdbc-pg-sanity](https://clojars.org/jdbc-pg-sanity), `mpg` is the new version.
 
 ## Installation
 
 Add `mpg` as a leiningen dependency:
 
 ```clojure
-[mpg "0.3.0"]
+[mpg "1.1.0"]
 ```
 
 [![Clojars Project](https://img.shields.io/clojars/v/mpg.svg)](https://clojars.org/mpg)
