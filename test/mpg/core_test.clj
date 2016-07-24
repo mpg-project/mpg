@@ -21,6 +21,10 @@
 
 (def conn (sql/get-connection pg))
 
+(defn prepare-db []
+  (sql/execute! {:connection conn} "create extension if not exists hstore")
+  (sql/execute! {:connection conn} "create extension if not exists citext"))
+
 (defn roundtrip-prepared [type val]
   (-> (as-> (str "select (? :: " type ") as result") $
         (sql/prepare-statement conn $)
@@ -83,3 +87,5 @@
       (is (= v
              (roundtrip-prepared "citext" v)
              (roundtrip-unprepared "citext" v))))))
+
+(prepare-db)
