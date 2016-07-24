@@ -44,7 +44,7 @@
   (extend-protocol j/ISQLParameter
     IPersistentMap
     (set-parameter [v ^java.sql.PreparedStatement stmt ^long idx]
-      (case (try (u/pg-param-type stmt idx) (catch ExceptionInfo e default-map))
+      (case (try (u/pg-param-type stmt idx) (catch ExceptionInfo e (name default-map)))
         "json"   (.setObject stmt idx (u/pg-json v))
         "jsonb"  (.setObject stmt idx (u/pg-json v))
         "citext" (.setObject stmt idx (str v))

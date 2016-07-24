@@ -9,3 +9,5 @@ pom.xml.asc
 /.nrepl-*
 .hgignore
 .hg/
+/.idea
+*.iml
