@@ -51,12 +51,34 @@ The current clojure.java.jdbc interface imposes some limitations on us.
 3. When using unbound statements, you must choose between storing maps as json or hstore (default: json)
 4. All applications that have written to the database are assumed to have correctly saved timestamps in UTC. If you only use this library, you won't have to worry about that. Most applications can be configured with the TZ environment variable
 
+## Running tests
+
+You need a database and a user on it with which we can run tests.
+
+You can provide information about these with environment variables:
+```bash
+MPG_TEST_DB_URI # default is '//127.0.0.1:5432/sanity_test'
+MPG_TEST_DB_USER
+MPG_TEST_DB_PASS
+```
+
+You can create a postgres database to test with `createdb` and give your
+user permissions with `GRANT` as per normal postgres.
+
+Running the tests is the same as any leiningen-based project:
+
+```shell
+lein test
+```
+
 ## Contributing
 
 Contributions and improvements welcome, just open an issue! :)
 
 If this library should do something, and it doesn't currently do it, please fork
 and open a pull request. All reasonable contributions will be accepted.
+
+Please run the tests before opening a pull request :)
 
 ## Acknowledgements
 

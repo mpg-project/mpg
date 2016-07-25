@@ -22,6 +22,10 @@
 
 (def conn (sql/get-connection pg))
 
+(defn prepare-db []
+  (sql/execute! {:connection conn} "create extension if not exists hstore")
+  (sql/execute! {:connection conn} "create extension if not exists citext"))
+
 (defn random-byte-array [size]
   (let [a (byte-array size)]
     (->> a .nextBytes (doto (java.util.Random.)))
@@ -71,3 +75,5 @@
         now-utc (ZonedDateTime/now (ZoneId/of "UTC"))]
     (roundtrip-test "LocalDate <-> date"          now-loc ["date"])
     (roundtrip-test "ZonedDateTime <-> timestamp" now-utc ["timestamp" "timestamptz"])))
+
+(prepare-db)
