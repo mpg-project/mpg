@@ -5,9 +5,15 @@
   (:import [org.postgresql.util PGobject]
            [org.postgresql.jdbc PgArray]
            [clojure.lang IPersistentMap IPersistentVector ExceptionInfo]
+           [java.nio ByteBuffer]
            [java.sql Date Timestamp PreparedStatement]
            [java.time Instant LocalDateTime]
            [java.util HashMap]))
+
+(defn bytebuf->array [^ByteBuffer buf]
+  (let [a (byte-array (.remaining buf))]
+    (.get buf a)
+    a))
 
 (defn patch
   "Installs conversion hooks:
@@ -40,7 +46,10 @@
         :hstore (HashMap. ^clojure.lang.PersistentHashMap value))
     IPersistentVector
     (sql-value [value]
-      (u/pg-json value)))
+      (u/pg-json value))
+    ByteBuffer
+    (sql-value [value]
+      (bytebuf->array value)))
   (extend-protocol j/ISQLParameter
     IPersistentMap
     (set-parameter [v ^java.sql.PreparedStatement stmt ^long idx]
@@ -59,4 +68,9 @@
           (if-let [array-type (-> (re-matches #"(.*)\[\]" type-name)
                                   (nth 1))]
             (.setObject stmt idx (.createArrayOf conn array-type (to-array v)))
-            (.setObject stmt idx (u/pg-json v))))))))
+            (.setObject stmt idx (u/pg-json v))))))
+    ByteBuffer
+    (set-parameter [v ^java.sql.PreparedStatement stmt ^long idx]
+      (.setBytes stmt idx (bytebuf->array v)))))
+      
+    

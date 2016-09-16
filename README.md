@@ -8,8 +8,16 @@ Handles the following:
 - `DATE` <-> `java.time.LocalDate`
 - `TIMESTAMP/TIMESTAMPTZ` <-> `java.time.ZonedDateTime`
 - `JSON/JSONB` <-> clojure map/vector
-- `ARRAY` (e.g. `int[]`)<-> clojure vector
+- `ARRAY` (e.g. `int[]`) <-> clojure vector
+- `BYTEA` <-> byte array
 - `HSTORE` <-> clojure map (limited support - jdbc stringifies all contents)
+
+Can also insert (but not retrieve) the following types:
+
+- `java.util.Date` -> `DATE/TIMESTAMP/TIMESTAMPTZ`
+- `java.sql.Timestamp` -> `DATE/TIMESTAMP/TIMESTAMPTZ`
+- `java.nio.ByteBuffer` -> `BYTEA` 
+
 
 [![Build Status](https://travis-ci.org/mpg-project/mpg.svg?branch=master)](https://travis-ci.org/mpg-project/mpg)
 
