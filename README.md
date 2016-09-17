@@ -91,12 +91,12 @@ Please run the tests before opening a pull request :)
 ## Acknowledgements
 
 This library was originally extracted from luminus boilerplate which
-hails from code floating around the internet
-generally. [James Laver](https://github.com/jjl) then contributed a
-new API and java.time support.
+hails from code floating around the internet generally. It was then
+refactored by [James Laver](https://github.com/jjl) and extended by
+the community.
 
 ## License
 
-Copyright © 2016 Shane Kilkelly
+Copyright © 2016 Shane Kilkelly, James Laver and contributors
 
 Distributed under the MIT license.
