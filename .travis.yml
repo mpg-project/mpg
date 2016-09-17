@@ -4,15 +4,12 @@ script: lein test
 branches:
   only:
     - master
-    - kentnl
-env:
-  - UTRECHT_TEST_DB="utrecht_test"
 addons:
   postgresql: "9.4"
 services:
   - postgresql
 before_script:
-  - psql -c 'create database sanity_test;' -U postgres
+  - psql -c 'create database mpg_test;' -U postgres
   - psql -d sanity_test -c 'create extension hstore;' -U postgres
   - psql -d sanity_test -c 'create extension citext;' -U postgres
 jdk:
