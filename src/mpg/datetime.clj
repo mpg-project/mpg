@@ -1,6 +1,6 @@
 (ns mpg.datetime
   (:require [clojure.java.jdbc :as j]
-            [mpg.util :as u])
+            [mpg.util :as u :refer [pg-param-type]])
   (:import [java.time Instant LocalDate LocalDateTime ZonedDateTime ZoneId]
            [java.time.temporal ChronoField]
            [java.sql Date Timestamp PreparedStatement]
@@ -65,20 +65,20 @@
     java.util.Date
     (set-parameter [^java.util.Date v ^PreparedStatement stmt ^long idx]
       (.setObject stmt idx
-        (case (u/pg-param-type stmt idx)
+        (case (pg-param-type stmt idx)
           "date" (Date. (.getTime v))
           "timestamp" (Timestamp. (.getTime v))
           "timestamptz" (Timestamp. (.getTime v)))))
     LocalDate
     (set-parameter [^LocalDate v ^PreparedStatement stmt ^long idx]
       (.setObject stmt idx
-        (case (u/pg-param-type stmt idx)
+        (case (pg-param-type stmt idx)
           "date"        (Date/valueOf v)
           "timestamp"   (Date/valueOf v)
           "timestamptz" (Date/valueOf v))))
     ZonedDateTime
     (set-parameter [^ZonedDateTime v ^PreparedStatement stmt ^long idx]
-      (let [t (u/pg-param-type stmt idx)]
+      (let [t (pg-param-type stmt idx)]
         (if (#{"timestamp" "timestamptz"} t)
           (->> v zoneddatetime->timestamp (.setTimestamp stmt idx))
           (throw (ex-info (str "Invalid conversion from ZonedDateTime. expected " t) {})))))))

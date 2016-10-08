@@ -1,7 +1,7 @@
 (ns mpg.data
   (:require [cheshire.core :as c]
             [clojure.java.jdbc :as j]
-            [mpg.util :as u])
+            [mpg.util :as u :refer [fatal pg-param-type pg-json]])
   (:import [org.postgresql.util PGobject]
            [org.postgresql.jdbc PgArray]
            [clojure.lang IPersistentMap IPersistentVector ExceptionInfo]
@@ -42,22 +42,40 @@
     IPersistentMap
     (sql-value [value]
       (case default-map
-        :json   (u/pg-json value))
+        :json   (pg-json value))
         :hstore (HashMap. ^clojure.lang.PersistentHashMap value))
     IPersistentVector
     (sql-value [value]
-      (u/pg-json value))
+      (pg-json value))
     ByteBuffer
     (sql-value [value]
       (bytebuf->array value)))
   (extend-protocol j/ISQLParameter
     IPersistentMap
     (set-parameter [v ^java.sql.PreparedStatement stmt ^long idx]
-      (case (try (u/pg-param-type stmt idx) (catch ExceptionInfo e (name default-map)))
-        "json"   (.setObject stmt idx (u/pg-json v))
-        "jsonb"  (.setObject stmt idx (u/pg-json v))
-        "citext" (.setObject stmt idx (str v))
-        "hstore" (.setObject stmt idx (java.util.HashMap. ^clojure.lang.PersistentHashMap v))))
+      (let [type (try (pg-param-type stmt idx) (catch ExceptionInfo e (name default-map)))]
+        (case type
+          "citext" (.setObject stmt idx (str v))
+          "hstore" (.setObject stmt idx (java.util.HashMap. ^clojure.lang.PersistentHashMap v))
+          (cond (#{"json" "jsonb"} type)
+                (.setObject stmt idx (pg-json v))
+
+                (#{"smallint" "integer" "int2" "int4" "serial" "serial4"} type)
+                (if (integer? v)
+                  (.setInt  stmt idx v)
+                  (fatal "Expected integer" {:type type :got v :col-index idx}))
+
+                (#{"bigint" "int8" "serial8" "bigserial"} type)
+                (if (integer? v)
+                  (.setLong stmt idx v)
+                  (fatal "Expected integer" {:type type :got v :col-index idx}))
+
+                (#{"decimal" "numeric" "real" "double precision"} type)
+                (if (float? v)
+                  (.setDouble stmt idx v)
+                  (fatal "Expected float" {:type type :got v :col-index idx}))
+
+                :else (fatal "Unknown data type in map" {:v v :idx idx :stmt stmt})))))
     IPersistentVector
     (set-parameter [v ^java.sql.PreparedStatement stmt ^long idx]
       (let [conn      (.getConnection stmt)
@@ -68,9 +86,7 @@
           (if-let [array-type (-> (re-matches #"(.*)\[\]" type-name)
                                   (nth 1))]
             (.setObject stmt idx (.createArrayOf conn array-type (to-array v)))
-            (.setObject stmt idx (u/pg-json v))))))
+            (.setObject stmt idx (pg-json v))))))
     ByteBuffer
     (set-parameter [v ^java.sql.PreparedStatement stmt ^long idx]
       (.setBytes stmt idx (bytebuf->array v)))))
-      
-    
