@@ -1,5 +1,5 @@
 (set-env!
-  :version "1.2.0"
+  :version "1.2.1"
   :dependencies '[[org.clojure/clojure "1.9.0-alpha11" :scope "provided"]
                   [cheshire "5.6.1"]
                   [org.clojure/java.jdbc "0.6.0-alpha2"]
