@@ -43,5 +43,13 @@
     (.setType "json")
     (.setValue (c/generate-string value))))
 
+(defn pg-jsonb
+  ""
+  [value]
+  (doto (PGobject.)
+    (.setType "jsonb")
+    (.setValue (c/generate-string value))))
+  
+  
 (defn fatal [msg map]
   (throw (ex-info (str msg ": " (pr-str map)) map)))

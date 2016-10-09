@@ -1,7 +1,7 @@
 (ns mpg.data
   (:require [cheshire.core :as c]
             [clojure.java.jdbc :as j]
-            [mpg.util :as u :refer [fatal pg-param-type pg-json]])
+            [mpg.util :as u :refer [fatal pg-param-type pg-json pg-jsonb]])
   (:import [org.postgresql.util PGobject]
            [org.postgresql.jdbc PgArray]
            [clojure.lang IPersistentMap IPersistentVector ExceptionInfo]
@@ -33,17 +33,19 @@
     (result-set-read-column [pgobj _metadata _index]
       (let [type  (.getType pgobj)
             value (.getValue pgobj)]
-        (case type
-          "json"  (c/parse-string value true)
-          "jsonb" (c/parse-string value true)
-          "citext" (str value)
-          value))))
+        (cond (#{"json" "jsonb"} type)
+              (c/parse-string value true)
+
+              (#{"varchar" "citext"} type)
+              (str value)
+
+              :else value))))
   (extend-protocol j/ISQLValue
     IPersistentMap
     (sql-value [value]
       (case default-map
-        :json   (pg-json value))
-        :hstore (HashMap. ^clojure.lang.PersistentHashMap value))
+        :json   (pg-json value)
+        :hstore (HashMap. ^clojure.lang.PersistentHashMap value)))
     IPersistentVector
     (sql-value [value]
       (pg-json value))
@@ -57,10 +59,9 @@
         (case type
           "citext" (.setObject stmt idx (str v))
           "hstore" (.setObject stmt idx (java.util.HashMap. ^clojure.lang.PersistentHashMap v))
-          (cond (#{"json" "jsonb"} type)
-                (.setObject stmt idx (pg-json v))
-
-                (#{"smallint" "integer" "int2" "int4" "serial" "serial4"} type)
+          "json"  (.setObject stmt idx (pg-json v))
+          "jsonb" (.setObject stmt idx (pg-jsonb v))
+          (cond (#{"smallint" "integer" "int2" "int4" "serial" "serial4"} type)
                 (if (integer? v)
                   (.setInt  stmt idx v)
                   (fatal "Expected integer" {:type type :got v :col-index idx}))
