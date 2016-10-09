@@ -22,7 +22,7 @@
    args: [default-map]
      default-map controls whether a map will be treated as hstore or json
      with unprepared statements (as we cannot just read the type).
-     value is one of: :json, :hstore"
+     value is one of: :json, :jsonb :hstore"
   [default-map]
   (extend-protocol j/IResultSetReadColumn
     java.util.HashMap ;; hstore
@@ -45,6 +45,7 @@
     (sql-value [value]
       (case default-map
         :json   (pg-json value)
+        :jsonb  (pg-jsonb value)
         :hstore (HashMap. ^clojure.lang.PersistentHashMap value)))
     IPersistentVector
     (sql-value [value]
