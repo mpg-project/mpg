@@ -25,7 +25,7 @@ Note: this library was once called [jdbc-pg-sanity](https://clojars.org/jdbc-pg-
 
 ## Installation
 
-Add `mpg` as a leiningen dependency:
+Add `mpg` as a leiningen or boot dependency:
 
 ```clojure
 [mpg "1.2.0"]
@@ -76,7 +76,7 @@ user permissions with `GRANT` as per normal postgres.
 Running the tests is the same as any leiningen-based project:
 
 ```shell
-lein test
+boot test
 ```
 
 ## Contributing
@@ -92,11 +92,10 @@ Please run the tests before opening a pull request :)
 
 This library was originally extracted from luminus boilerplate which
 hails from code floating around the internet
-generally. [James Laver](https://github.com/jjl) then contributed a
-new API and java.time support.
+generally. [James Laver](https://github.com/jjl) basically rewrote it.
 
 ## License
 
-Copyright © 2016 Shane Kilkelly
+Copyright © 2016 Shane Kilkelly, James Laver
 
 Distributed under the MIT license.
