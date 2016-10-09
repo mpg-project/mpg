@@ -47,7 +47,7 @@ Just require the `mpg.core` namespace and call `patch`
 ;; valid settings:
     :data        - boolean, default true. auto-map maps and vectors?
     :datetime    - boolean, default true. auto-map java.time.{LocalDate, ZonedDateTime} ?
-    :default-map - keyword. one of :json, :hstore. Default :json
+    :default-map - keyword. one of :json, :jsonb, :hstore. Default :jsonb
 ```
 
 ## Limitations
