@@ -6,15 +6,11 @@
                   [org.postgresql/postgresql "9.4.1208"]
                   [tolitius/boot-check "0.1.3" :scope "test"]
                   [adzerk/boot-test "1.1.0"    :scope "test"]
-                  [environ "1.0.2"             :scope "test"]
-                  [adzerk/bootlaces "0.1.13" :scope "test"]]
+                  [environ "1.0.2"             :scope "test"]]
   :resource-paths #{"src"}
   :source-paths #{"src"})
 
-(require '[adzerk/bootlaces :refer :all])
 (require '[adzerk.boot-test :as t])
-
-(bootlaces! (get-env :version))
 
 (task-options!
   pom {:project 'mpg
