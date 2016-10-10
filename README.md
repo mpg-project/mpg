@@ -16,7 +16,7 @@ Can also insert (but not retrieve) the following types:
 
 - `java.util.Date` -> `DATE/TIMESTAMP/TIMESTAMPTZ`
 - `java.sql.Timestamp` -> `DATE/TIMESTAMP/TIMESTAMPTZ`
-- `java.nio.ByteBuffer` -> `BYTEA` 
+- `java.nio.ByteBuffer` -> `BYTEA`
 
 
 [![Build Status](https://travis-ci.org/mpg-project/mpg.svg?branch=master)](https://travis-ci.org/mpg-project/mpg)
@@ -65,7 +65,7 @@ You need a database and a user on it with which we can run tests.
 
 You can provide information about these with environment variables:
 ```bash
-MPG_TEST_DB_URI # default is '//127.0.0.1:5432/sanity_test'
+MPG_TEST_DB_URI # default is '//127.0.0.1:5432/mpg_test'
 MPG_TEST_DB_USER
 MPG_TEST_DB_PASS
 ```
