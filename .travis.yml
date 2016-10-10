@@ -1,6 +1,6 @@
 language: clojure
 sudo: false
-script: lein test
+script: ./boot travis
 branches:
   only:
     - master
@@ -14,8 +14,10 @@ before_script:
   - psql -d mpg_test -c 'create extension citext;' -U postgres
 jdk:
   - oraclejdk8
-#  - openjdk7 # tests fail - probably running out of memory or disk
 # travis does not support any of these (yet):
 #  - oraclejdk9
 #  - openjdk8
 #  - openjdk9
+install:
+  - curl -fsSLo boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh
+  - chmod 755 boot
