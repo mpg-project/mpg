@@ -1,17 +1,20 @@
 (set-env!
   :version "1.3.0"
-  :dependencies '[[org.clojure/clojure "1.8.0" :scope "provided"]
+  :dependencies '[[org.clojure/clojure "1.8.0"]
                   [cheshire "5.6.1"]
                   [org.clojure/java.jdbc "0.6.0-alpha2"]
                   [org.postgresql/postgresql "9.4.1208"]
                   [tolitius/boot-check "0.1.3" :scope "test"]
                   [adzerk/boot-test "1.1.0"    :scope "test"]
-                  [environ "1.0.2"             :scope "test"]]
+                  [environ "1.0.2"             :scope "test"]
+                  [adzerk/bootlaces "0.1.13" :scope "test"]]
   :resource-paths #{"src"}
-  :source-paths #{"src"}
-  :repositories [["clojars" {:url "https://clojars.org/repo/"}]])
+  :source-paths #{"src"})
 
+(require '[adzerk/bootlaces :refer :all])
 (require '[adzerk.boot-test :as t])
+
+(bootlaces! (get-env :version))
 
 (task-options!
   pom {:project 'mpg
