@@ -28,7 +28,7 @@ Note: this library was once called [jdbc-pg-sanity](https://clojars.org/jdbc-pg-
 Add `mpg` as a leiningen or boot dependency:
 
 ```clojure
-[mpg "1.2.0"]
+[mpg "1.3.0"]
 ```
 
 [![Clojars Project](https://img.shields.io/clojars/v/mpg.svg)](https://clojars.org/mpg)
