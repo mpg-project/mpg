@@ -9,9 +9,7 @@
                   [environ "1.0.2"             :scope "test"]]
   :resource-paths #{"src"}
   :source-paths #{"src"}
-  :repositories [["clojars" {:url "https://clojars.org/repo/"
-                             :username (System/getenv "CLOJARS_USER")
-                             :password (System/getenv "CLOJARS_PASS")}]])
+  :repositories [["clojars" {:url "https://clojars.org/repo/"}]])
 
 (require '[adzerk.boot-test :as t])
 
