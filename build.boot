@@ -1,6 +1,6 @@
 (set-env!
-  :version "1.2.1"
-  :dependencies '[[org.clojure/clojure "1.9.0-alpha11" :scope "provided"]
+  :version "1.3.0"
+  :dependencies '[[org.clojure/clojure "1.8.0" :scope "provided"]
                   [cheshire "5.6.1"]
                   [org.clojure/java.jdbc "0.6.0-alpha2"]
                   [org.postgresql/postgresql "9.4.1208"]
@@ -8,7 +8,10 @@
                   [adzerk/boot-test "1.1.0"    :scope "test"]
                   [environ "1.0.2"             :scope "test"]]
   :resource-paths #{"src"}
-  :source-paths #{"src"})
+  :source-paths #{"src"}
+  :repositories [["clojars" {:url "https://clojars.org/repo/"
+                             :username (System/getenv "CLOJARS_USER")
+                             :password (System/getenv "CLOJARS_PASS")}]])
 
 (require '[adzerk.boot-test :as t])
 
